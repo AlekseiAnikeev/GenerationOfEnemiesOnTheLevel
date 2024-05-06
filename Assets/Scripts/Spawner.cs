@@ -26,9 +26,9 @@ public class Spawner : MonoBehaviour
 
         _spawnCoordinate = new List<Vector3>()
         {
-            new(45,0,45),
-            new(-45,0,45),
-            new(45,0,-45),
+            new(45, 0, 45),
+            new(-45, 0, 45),
+            new(45, 0, -45),
         };
     }
 
@@ -39,9 +39,7 @@ public class Spawner : MonoBehaviour
 
     private void Spawn()
     {
-            var enemy = _pool.Get();
-            enemy.transform.position = GetRandomPosition();
-            enemy.SetTargetPosition(transform.position);
+        _pool.Get().Init(GetRandomPosition(), transform);
     }
 
     private void OnTriggerEnter(Collider other)

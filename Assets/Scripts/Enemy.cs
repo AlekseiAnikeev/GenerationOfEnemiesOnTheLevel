@@ -1,21 +1,26 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
-    [FormerlySerializedAs("speed")] [SerializeField, Min(1f)] private float _speed = 1;
-
-    private Vector3 _targetPosition;
-
-    public void SetTargetPosition(Vector3 targetPosition) => _targetPosition = targetPosition;
+    [SerializeField, Min(0.01f)] private float _speed;
+    
+    private Transform _target;
 
     private void Update()
     {
-        MoveTowards(_targetPosition);
+        var direction = (_target.position - transform.position).normalized;
+        
+        MoveTowards(direction);
     }
 
-    private void MoveTowards(Vector3 position)
+    public void Init(Vector3 spawnPoint, Transform target)
     {
-        transform.position = Vector3.MoveTowards(transform.position, position, _speed * Time.deltaTime);
+        transform.position = spawnPoint;
+        _target = target;
+    }
+
+    private void MoveTowards(Vector3 direction)
+    {
+        transform.Translate(direction * _speed);
     }
 }
